@@ -7,7 +7,14 @@ from firebase_admin import credentials, firestore
 
 # Initialize Firebase Admin SDK
 if not firebase_admin._apps:
-    cred = credentials.Certificate(r'C:\Users\wedig\Downloads\tut1-3e7f8-firebase-adminsdk-fbsvc-56a39f7f62.json')
+    # For local development, use a relative path
+    CREDENTIALS_PATH = "firebase_credentials.json"
+    # Or better - use Streamlit secrets in production
+    if st.secrets.get("firebase_credentials"):
+        cred_dict = st.secrets["firebase_credentials"]
+        cred = credentials.Certificate(cred_dict)
+    else:
+        cred = credentials.Certificate(CREDENTIALS_PATH)
     firebase_admin.initialize_app(cred)
 db = firestore.client()  # Use Firestore
 
