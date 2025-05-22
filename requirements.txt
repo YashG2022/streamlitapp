@@ -70,14 +70,12 @@ pyasn1_modules==0.4.2
 pycparser==2.22
 pycryptodome==3.23.0
 pydeck==0.9.1
-Pygments==2.19.1
 PyJWT==2.10.1
 pyotp==2.9.0
 pyparsing==3.2.3
 Pyrebase4==4.8.0
 python-dateutil==2.9.0.post0
 python-jwt==4.1.0
-pytz==2025.2
 pywin32==310
 pyzmq==26.4.0
 referencing==0.36.2
