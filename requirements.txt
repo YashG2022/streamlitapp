@@ -75,9 +75,6 @@ pyotp==2.9.0
 pyparsing==3.2.3
 Pyrebase4==4.8.0
 python-dateutil==2.9.0.post0
-python-jwt==4.1.0
-pywin32==310
-pyzmq==26.4.0
 referencing==0.36.2
 requests==2.32.3
 requests-toolbelt==0.10.1
