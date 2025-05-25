@@ -79,6 +79,7 @@ if "user" in st.session_state:
         dates = [doc.id for doc in flagged_stocks_ref]  # Get all dates
 
         if dates:
+            dates = dates[::-1]
             # Ask the user to select a date
             selected_date = st.selectbox("Select a Date", dates)
 
@@ -119,6 +120,8 @@ if "user" in st.session_state:
                             # Format the display based on time period
                             if time_period == "Monthly":
                                 df.index = df.index.strftime('%Y-%m')
+                            df = df.loc[::-1]
+                            df = df[['SYMBOL', 'OPEN_PRICE', 'CLOSE_PRICE','AVG_DELIVERY','DELIV_QTY','DELIVERY_MULTIPLE','AVG_TRADE_QTY','TTL_TRD_QNTY','TRADED_MULTIPLE','DELIV_PER','CURRENT_AVG_DELIVERY','SERIES']]
                             st.write("##### Data Table")
                             st.dataframe(df)  # Display data in a table
                         else:
