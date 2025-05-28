@@ -102,7 +102,7 @@ if "user" in st.session_state:
                         time_period = st.radio("Select Time Period", ["Daily", "Monthly"], horizontal=True)
                         
                         # Fetch data for the selected stock
-                        stock_doc_ref = db.collection("testblock_phase2").document(selected_stock)
+                        stock_doc_ref = db.collection("testblock_phase3").document(selected_stock)
                         stock_doc = stock_doc_ref.get()
                         
                         if time_period == "Daily":
