@@ -108,24 +108,40 @@ if "user" in st.session_state:
                         if time_period == "Daily":
                             data = stock_doc.to_dict().get("daily_data", {})
                             freq_label = "Daily"
+                            if data:
+                                st.write("##### Raw Data")
+                                st.write(selected_stock)  # Display raw data
+                                df = pd.DataFrame.from_dict(data, orient='index')
+                                df.index = pd.to_datetime(df.index)
+                                df = df.sort_index()
+                                # Format the display based on time period
+                                if time_period == "Monthly":
+                                    df.index = df.index.strftime('%Y-%m')
+                                df = df.loc[::-1]
+                                df = df[['SYMBOL', 'OPEN_PRICE', 'CLOSE_PRICE','AVG_DELIVERY','DELIV_QTY','DELIVERY_MULTIPLE','AVG_TRADE_QTY','TTL_TRD_QNTY','TRADED_MULTIPLE','DELIV_PER','CURRENT_AVG_DELIVERY','SERIES']]
+                                st.dataframe(df)
+                            else:
+                                st.write("No data found for the selected stock.")
                         else:
-                            data = stock_doc.to_dict().get("monthly_data", {})
+                            data = stock_doc.to_dict().get("daily_data", {})
                             freq_label = "Monthly"
-                        if data:
-                            st.write("##### Raw Data")
-                            st.write(selected_stock)  # Display raw data
-                            df = pd.DataFrame.from_dict(data, orient='index')
-                            df.index = pd.to_datetime(df.index)
-                            df = df.sort_index()
-                            # Format the display based on time period
-                            if time_period == "Monthly":
-                                df.index = df.index.strftime('%Y-%m')
-                            df = df.loc[::-1]
-                            df = df[['SYMBOL', 'OPEN_PRICE', 'CLOSE_PRICE','AVG_DELIVERY','DELIV_QTY','DELIVERY_MULTIPLE','AVG_TRADE_QTY','TTL_TRD_QNTY','TRADED_MULTIPLE','DELIV_PER','CURRENT_AVG_DELIVERY','SERIES']]
-                            st.write("##### Data Table")
-                            st.dataframe(df)  # Display data in a table
-                        else:
-                            st.write("No data found for the selected stock.")
+                            if data:
+                                st.write("##### Raw Data")
+                                st.write(selected_stock)  # Display raw data
+                                df = pd.DataFrame.from_dict(data, orient='index')
+                                df = df.sort_values(by=["Year", "Month"], ascending=True)
+                                # Extract first row of each month
+                                monthly_data = df.groupby("YearMonth").last().reset_index()  
+                                monthly_data.index = pd.to_datetime(monthly_data.index)
+                                monthly_data = monthly_data.sort_index()
+                                # Format the display based on time period
+                                monthly_data.index = monthly_data.index.strftime('%Y-%m')
+                                monthly_data = monthly_data.loc[::-1]
+                                df = monthly_data[['SYMBOL', 'OPEN_PRICE', 'CLOSE_PRICE','TTL_TRD_QNTY','CURRENT_AVG_DELIVERY','SERIES']]                            freq_label = "Monthly"
+                                st.dataframe(df)
+                            else:
+                                st.write("No data found for the selected stock.")
+                            freq_label = "Monthly"
                 else:
                     st.write("No flagged stocks found for the selected date.")
             else:
